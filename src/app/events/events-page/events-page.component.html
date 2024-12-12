@@ -1,0 +1,51 @@
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"> SVTickets</a>
+  </div>
+</nav> -->
+
+<div class="container">
+  <nav class="navbar navbar-light bg-light justify-content-between mt-3">
+    <div class="container-fluid">
+      <ul class="nav">
+        <li class="nav-item">
+          <button 
+            (click)="orderDate()"
+          class="nav-link" href="#" id="orderDate">Order by date</button>
+        </li>
+        <li class="nav-item">
+          <button 
+          (click)="orderPrice()"
+          class="nav-link" href="#" id="orderPrice">Order by price</button>
+        </li>
+      </ul>
+      <form class="d-flex mb-0">
+        <input
+        [(ngModel)]="search"
+          class="form-control me-2"
+          type="text"
+          name="search"
+          id="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+      </form>
+    </div>
+  </nav>
+  <!-- Obtenint amb added el objecte MyEvent enviat desde el form-page -->
+
+  <div
+    id="eventsContainer"
+    class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4"
+  >
+    <!-- Ara per a cridar a l'array, al ser un signal, hem de posar els parentesis -->
+    @for(event of filteredTitleDescrip(); track event.id){
+
+    <event-card
+      [event]="event"
+      (deleted)="deleteEvent(event)"
+      class="col"
+    />
+    }
+  </div>
+</div>
