@@ -8,11 +8,10 @@ import { ValidationClassesDirective } from '../../shared/directives/validation-c
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'event-form',
-  standalone: true,
-  imports: [FormsModule, EncodeBase64Directive, ReactiveFormsModule, ValidationClassesDirective, DatePipe],
-  templateUrl: './event-form.component.html',
-  styleUrl: './event-form.component.css'
+    selector: 'event-form',
+    imports: [FormsModule, EncodeBase64Directive, ReactiveFormsModule, ValidationClassesDirective, DatePipe],
+    templateUrl: './event-form.component.html',
+    styleUrl: './event-form.component.css'
 })
 export class EventFormComponent {
 

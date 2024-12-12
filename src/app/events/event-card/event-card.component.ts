@@ -7,11 +7,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'event-card',
-  standalone: true,
-  imports: [DatePipe, IntlCurrencyPipe, RouterLink],
-  templateUrl: './event-card.component.html',
-  styleUrl: './event-card.component.css'
+    selector: 'event-card',
+    imports: [DatePipe, IntlCurrencyPipe, RouterLink],
+    templateUrl: './event-card.component.html',
+    styleUrl: './event-card.component.css'
 })
 export class EventCardComponent {
   event = input.required<MyEvent>();
