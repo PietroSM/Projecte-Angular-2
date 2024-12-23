@@ -2,10 +2,12 @@ import { Routes } from "@angular/router";
 import { leavePageGuard } from "../shared/guards/leave-page.guard";
 import { numericIdGuard } from "../shared/guards/numeric-id.guard";
 import { eventResolver } from "../shared/resolvers/event.resolver";
+import { loginActiveGuard } from "../shared/guards/login-active.guard";
 
 export const eventsRoutes: Routes = [
     {
         path: '',
+        canActivate: [loginActiveGuard],
         loadComponent: () =>
           import('./events-page/events-page.component')
           .then((m) => m.EventsPageComponent),

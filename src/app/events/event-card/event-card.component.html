@@ -1,4 +1,4 @@
-<div class="card shadow">
+<!-- <div class="card shadow">
   <img
     class="card-img-top"
     [src]="event().image"
@@ -18,6 +18,83 @@
     <div class="col">{{ event().date | date : "dd/MM/yyyy" }}</div>
     <div class="col text-end">
       {{ event().price | intlCurrency : "EUR" : "es-ES" }}
+    </div>
+  </div>
+</div> -->
+<div class="col">
+  <div class="card h-100 shadow">
+    <img
+      class="card-img-top"
+      [src]="event().image"
+      alt=""
+      [routerLink]="['/events', event().id]"
+    />
+    <div class="card-body">
+      <h4 class="card-title" [routerLink]="['/events', event().id]">
+        {{ event().title }}
+      </h4>
+      <p class="card-text">{{ event().description }}</p>
+      <div class="row">
+        <!-- Remove this div if event is not mine -->
+        @if( event().mine ){
+        <div class="col">
+          <button (click)="eliminar()" class="btn btn-danger delete">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+        }
+        <div class="col-auto ms-auto">
+          <div class="text-end attend-users">
+            <i class="bi bi-people-fill"></i> {{ event().numAttend }}
+          </div>
+
+          <div class="text-end m-0 attend-button" 
+          [ngClass]="{
+            'text-success' : event().attend,
+            'text-danger' : !event().attend
+          }" 
+          (click)="canviarAttend()"
+          (keydown.enter)="canviarAttend()" 
+          tabindex="0" 
+          role="button">
+            <i class="bi" [ngClass]="{
+              'bi-hand-thumbs-up-fill' : event().attend,
+              'bi-hand-thumbs-down-fill' : !event().attend
+            }"></i> @if(event().attend){
+              {{ "I'm going" }}
+            } @else {
+              {{ "Not going" }}
+            }
+          </div>
+
+          <!-- <div class="text-danger text-end m-0 attend-button">
+            <i class="bi bi-hand-thumbs-down-fill"></i> Not going
+          </div> -->
+
+          <!-- Change to bi-hand-thumbs-down-fill if the user is not attending the event  -->
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-muted row m-0">
+      <div class="col-auto avatar pl-1 pr-1">
+        <a href="">
+          <img [src]="event().creator.avatar" class="rounded-circle" alt="" />
+        </a>
+      </div>
+      <div class="col">
+        <div class="name">
+          <a href="">{{ event().creator.name }}</a>
+        </div>
+        <div class="date small text-muted">
+          {{ event().date | date : "dd/MM/yyyy" }}
+        </div>
+      </div>
+      <div class="col-auto text-end text-muted">
+        <div class="price small">
+          {{ event().price | intlCurrency : "EUR" : "es-ES" }}
+        </div>
+        <div class="distance small">{{ event().distance }} km</div>
+      </div>
     </div>
   </div>
 </div>

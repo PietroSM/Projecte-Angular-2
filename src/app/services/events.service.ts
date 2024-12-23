@@ -34,4 +34,15 @@ export class EventsService {
     return this.#http.delete<void>(`${this.#eventsURL}/${id}`);
   }
 
+  postAttend(id: number) : Observable<void>{
+    return this.#http
+      .post<void>(`${this.#eventsURL}/${id}/attend`, null);
+  }
+
+  deleteAttend(id: number) : Observable<void>{
+    return this.#http
+      .delete<void>(`${this.#eventsURL}/${id}/attend`);
+  }
+
+
 }

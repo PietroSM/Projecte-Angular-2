@@ -1,11 +1,12 @@
-import { Component, inject} from '@angular/core';
-import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import { EncodeBase64Directive } from '../../shared/directives/encode-base64.directive';
-import { EventsService } from '../../services/events.service';
-import { Router } from '@angular/router';
-import { minDateValidator } from '../../shared/validator/min-date.validator';
-import { ValidationClassesDirective } from '../../shared/directives/validation-classes.directive';
-import { DatePipe } from '@angular/common';
+import { DatePipe } from "@angular/common";
+import { Component, inject } from "@angular/core";
+import { FormsModule, ReactiveFormsModule, NonNullableFormBuilder, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { EventsService } from "../../services/events.service";
+import { EncodeBase64Directive } from "../../shared/directives/encode-base64.directive";
+import { ValidationClassesDirective } from "../../shared/directives/validation-classes.directive";
+import { minDateValidator } from "../../shared/validator/min-date.validator";
+
 
 @Component({
     selector: 'event-form',
@@ -37,12 +38,12 @@ export class EventFormComponent {
 
   addEvent(){
 
-    this.#eventsService
-      .addEvent({...this.newEvent.getRawValue(), image: this.imageBase64 })
-      .subscribe(() => {
-        this.#router.navigate(['/events']);
-        this.#saved = true;
-      });
+    // this.#eventsService
+    //   .addEvent({...this.newEvent.getRawValue(), image: this.imageBase64 })
+    //   .subscribe(() => {
+    //     this.#router.navigate(['/events']);
+    //     this.#saved = true;
+    //   });
   }
 
   canDeactivate() {

@@ -1,5 +1,14 @@
 <div class="container">
-  <form action="#" id="form-login" class="mt-4" method="POST" role="form">
+  <form
+    #formLogin="ngForm"
+    (ngSubmit)="iniciar()"
+    [formGroup]="newLogin"
+    action="#"
+    id="form-login"
+    class="mt-4"
+    method="POST"
+    role="form"
+  >
     <legend>Welcome to SVTickets!</legend>
 
     <div class="mb-3">
@@ -10,8 +19,15 @@
         name="email"
         id="email"
         placeholder="Email"
-        required
+        formControlName="email"
+        [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
       />
+      @let emailError = newLogin.get('email')?.errors;
+
+      @if(emailError?.['required']){
+        <div class="invalid-feedback">Email is required.</div>
+      }
+
     </div>
     <div class="mb-3">
       <label for="password">Password:</label>
@@ -21,13 +37,19 @@
         name="password"
         id="password"
         placeholder="Password"
-        required
+        formControlName="password"
+        [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
       />
+      @let passwordError = newLogin.get('password')?.errors;
+
+      @if(passwordError?.['required']){
+        <div class="invalid-feedback">Password is required.</div>
+      }
+
     </div>
     <p class="text-danger" id="errorInfo"></p>
-    <button type="submit" 
-    class="btn btn-primary"
-    [routerLink]="['/events']"
-    >Login </button>
+    <button type="submit" class="btn btn-primary" [disabled]="newLogin.invalid">
+      Login
+    </button>
   </form>
 </div>
