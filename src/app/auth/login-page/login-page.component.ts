@@ -1,12 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ValidationClassesDirective } from '../../shared/directives/validation-classes.directive';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { from } from 'rxjs';
-import { MyGeolocation } from '../my-geolocation';
-import { UserLogin } from '../../interfaces/user';
+import { Component, inject } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { FormsModule, ReactiveFormsModule, NonNullableFormBuilder, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { from } from "rxjs";
+import { UserLogin } from "../../interfaces/user";
+import { AuthService } from "../../services/auth.service";
+import { ValidationClassesDirective } from "../../shared/directives/validation-classes.directive";
+import { MyGeolocation } from "../my-geolocation";
+
 
 @Component({
     selector: 'app-login-page',

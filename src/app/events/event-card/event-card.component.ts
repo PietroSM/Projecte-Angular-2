@@ -1,10 +1,11 @@
-import { Component, DestroyRef, effect, inject, input, output } from '@angular/core';
-import { MyEvent } from '../../shared/directives/my-event';
-import { DatePipe, NgClass } from '@angular/common';
-import { IntlCurrencyPipe } from '../../shared/pipes/intl-currency.pipe';
-import { EventsService } from '../../services/events.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
+import { DatePipe, NgClass } from "@angular/common";
+import { Component, input, output, inject, DestroyRef } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { RouterLink } from "@angular/router";
+import { EventsService } from "../../services/events.service";
+import { MyEvent } from "../../shared/directives/my-event";
+import { IntlCurrencyPipe } from "../../shared/pipes/intl-currency.pipe";
+
 
 @Component({
   selector: 'event-card',

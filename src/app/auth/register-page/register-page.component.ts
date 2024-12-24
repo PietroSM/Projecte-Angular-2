@@ -1,19 +1,15 @@
-import { Component, effect, inject } from '@angular/core';
-import {
-  FormsModule,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Router } from '@angular/router';
-import { ValidationClassesDirective } from '../../shared/directives/validation-classes.directive';
-import { equalValues } from '../../shared/validator/equals-values.validators';
-import { User } from '../../interfaces/user';
-import { EncodeBase64Directive } from '../../shared/directives/encode-base64.directive';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { MyGeolocation } from '../my-geolocation';
-import { from } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { Component, inject, effect } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { FormsModule, ReactiveFormsModule, NonNullableFormBuilder, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { from } from "rxjs";
+import { User } from "../../interfaces/user";
+import { AuthService } from "../../services/auth.service";
+import { EncodeBase64Directive } from "../../shared/directives/encode-base64.directive";
+import { ValidationClassesDirective } from "../../shared/directives/validation-classes.directive";
+import { equalValues } from "../../shared/validator/equals-values.validators";
+import { MyGeolocation } from "../my-geolocation";
+
 
 @Component({
   selector: 'app-register-page',

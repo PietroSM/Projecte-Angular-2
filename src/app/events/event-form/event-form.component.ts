@@ -4,9 +4,10 @@ import { FormsModule, ReactiveFormsModule, NonNullableFormBuilder, Validators } 
 import { Router } from "@angular/router";
 import { EventsService } from "../../services/events.service";
 import { EncodeBase64Directive } from "../../shared/directives/encode-base64.directive";
+import { OlMapDirective } from "../../shared/directives/ol-map.directive";
 import { ValidationClassesDirective } from "../../shared/directives/validation-classes.directive";
 import { minDateValidator } from "../../shared/validator/min-date.validator";
-import { OlMapDirective } from "../../shared/directives/ol-map.directive";
+
 
 
 @Component({
