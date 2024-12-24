@@ -114,6 +114,10 @@ id="newEvent"
   />
 }
 
+<div id="map" class="mb-3">
+  <ol-map [coordinates]="coordinates()"></ol-map>
+</div>
+
 <div>
   <button type="submit" class="btn btn-primary" [disabled]="newEvent.invalid">Create</button>
 </div>

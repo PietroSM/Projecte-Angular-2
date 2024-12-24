@@ -1,4 +1,4 @@
-import { MyEvent } from "./my-event";
+import { MyEvent } from "../shared/directives/my-event";
 import { User } from "./user";
 
 export interface EventsResponse {

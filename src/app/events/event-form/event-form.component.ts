@@ -1,16 +1,17 @@
 import { DatePipe } from "@angular/common";
-import { Component, inject } from "@angular/core";
+import { Component, inject, signal } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, NonNullableFormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { EventsService } from "../../services/events.service";
 import { EncodeBase64Directive } from "../../shared/directives/encode-base64.directive";
 import { ValidationClassesDirective } from "../../shared/directives/validation-classes.directive";
 import { minDateValidator } from "../../shared/validator/min-date.validator";
+import { OlMapDirective } from "../../shared/directives/ol-map.directive";
 
 
 @Component({
     selector: 'event-form',
-    imports: [FormsModule, EncodeBase64Directive, ReactiveFormsModule, ValidationClassesDirective, DatePipe],
+    imports: [FormsModule, EncodeBase64Directive, ReactiveFormsModule, ValidationClassesDirective, DatePipe, OlMapDirective],
     templateUrl: './event-form.component.html',
     styleUrl: './event-form.component.css'
 })
@@ -34,7 +35,7 @@ export class EventFormComponent {
 
   imageBase64 = '';
 
-
+  coordinates = signal<[number, number]>([-0.5, 38.5]);
 
   addEvent(){
 

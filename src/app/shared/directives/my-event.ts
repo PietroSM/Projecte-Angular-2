@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User } from "../../interfaces/user";
 
 export interface MyEventInsert {
   title: string;

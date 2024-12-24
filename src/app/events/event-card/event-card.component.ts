@@ -1,5 +1,5 @@
 import { Component, DestroyRef, effect, inject, input, output } from '@angular/core';
-import { MyEvent } from '../../interfaces/my-event';
+import { MyEvent } from '../../shared/directives/my-event';
 import { DatePipe, NgClass } from '@angular/common';
 import { IntlCurrencyPipe } from '../../shared/pipes/intl-currency.pipe';
 import { EventsService } from '../../services/events.service';

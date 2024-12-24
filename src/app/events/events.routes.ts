@@ -15,6 +15,7 @@ export const eventsRoutes: Routes = [
     },
     {
         path: 'add',
+        canActivate: [loginActiveGuard],
         canDeactivate: [leavePageGuard],
         loadComponent: () =>
           import('./event-form/event-form.component')
@@ -23,7 +24,7 @@ export const eventsRoutes: Routes = [
     },
     {
         path: ':id',
-        canActivate: [numericIdGuard],
+        canActivate: [numericIdGuard, loginActiveGuard],
         resolve: {
           event: eventResolver,
         },
