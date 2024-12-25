@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { MyEvent } from '../shared/directives/my-event';
+import { MyEvent, MyEventInsert } from '../interfaces/my-event';
 import { EventsResponse, SingleEventResponse } from '../interfaces/responses';
 
 @Injectable({
@@ -24,10 +24,15 @@ export class EventsService {
       .pipe(map((resp) => resp.event));
   }
 
-  addEvent(event : MyEvent): Observable<MyEvent>{
+  addEvent(event : MyEventInsert): Observable<MyEvent>{
     return this.#http
       .post<SingleEventResponse>(this.#eventsURL,event)
       .pipe(map((resp) => resp.event));
+  }
+
+  updateEvent(event: MyEventInsert, id: number): Observable<void>{
+    return this.#http
+      .put<void>(`${this.#eventsURL}/${id}`, event);
   }
 
   deleteEvent(id: number): Observable<void>{

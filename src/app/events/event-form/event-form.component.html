@@ -102,23 +102,43 @@ id="newEvent"
   />
   @let imgErrors = newEvent.get('image')?.errors;
 
-  
+  @if(!imgErrors?.['required']){
   <div class="invalid-feedback">An image is required.</div>
+  }
 </div>
-@if(!imgErrors?.['required']){
+@if(!imgErrors?.['required'] && !id()){
     <img
     [src]="imageBase64"
     alt=""
     id="imgPreview"
     class="img-thumbnail mb-3"
   />
+} @else {
+  <img
+  [src]="imageBase64"
+  alt=""
+  id="imgPreview"
+  class="img-thumbnail mb-3"
+/>
 }
 
-<div id="map" class="mb-3">
-  <ol-map [coordinates]="coordinates()"></ol-map>
-</div>
+
+  <ol-map [coordinates]="coordinates()">
+    <div id="autocomplete" class="autocomplete-container">
+      <ga-autocomplete (locationChange)="changePlace($event)"></ga-autocomplete>
+    </div>
+      <ol-marker [coordinates]="coordinates()"></ol-marker>
+
+  </ol-map>
+  @if(id()){
+    <p>Addres: {{ address()}}</p>
+  }
 
 <div>
-  <button type="submit" class="btn btn-primary" [disabled]="newEvent.invalid">Create</button>
+  @if(!id()){
+    <button type="submit" class="btn btn-primary" [disabled]="newEvent.invalid">Create</button>
+  } @else {
+    <button type="submit" class="btn btn-primary">Update</button>
+  }
 </div>
 </form>

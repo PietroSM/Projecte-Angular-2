@@ -2,7 +2,7 @@ import { Component, signal, inject, computed } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FormsModule } from "@angular/forms";
 import { EventsService } from "../../services/events.service";
-import { MyEvent } from "../../shared/directives/my-event";
+import { MyEvent } from "../../interfaces/my-event";
 import { EventCardComponent } from "../event-card/event-card.component";
 
 

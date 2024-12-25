@@ -3,7 +3,7 @@ import { Component, input, output, inject, DestroyRef } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { RouterLink } from "@angular/router";
 import { EventsService } from "../../services/events.service";
-import { MyEvent } from "../../shared/directives/my-event";
+import { MyEvent } from "../../interfaces/my-event";
 import { IntlCurrencyPipe } from "../../shared/pipes/intl-currency.pipe";
 
 

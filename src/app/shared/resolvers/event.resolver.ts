@@ -1,7 +1,7 @@
 import { ResolveFn, Router } from '@angular/router';
 import { EventsService } from '../../services/events.service';
 import { inject } from '@angular/core';
-import { MyEvent } from '../directives/my-event';
+import { MyEvent } from '../../interfaces/my-event';
 import { catchError, EMPTY } from 'rxjs';
 
 export const eventResolver: ResolveFn<MyEvent> = (route) => {

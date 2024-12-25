@@ -23,6 +23,15 @@ export const eventsRoutes: Routes = [
         title: 'New Event | Angular Events',
     },
     {
+      path: ':id/edit',
+      canActivate: [loginActiveGuard],
+      canDeactivate: [leavePageGuard],
+      loadComponent: () =>
+        import('./event-form/event-form.component')
+        .then((m) => m.EventFormComponent),
+      title: 'Edit Event | Angular Events',
+    },
+    {
         path: ':id',
         canActivate: [numericIdGuard, loginActiveGuard],
         resolve: {
@@ -33,5 +42,5 @@ export const eventsRoutes: Routes = [
           .then((m) => m.EventDetailComponent),
 
         title: 'Detail Events | Angular Events',
-      },
+    }
 ]
