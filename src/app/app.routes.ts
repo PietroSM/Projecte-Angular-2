@@ -11,5 +11,5 @@ export const routes: Routes = [
             .then(m => m.eventsRoutes)
   },
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
 ];

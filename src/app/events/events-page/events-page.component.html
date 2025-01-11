@@ -18,17 +18,14 @@
           (click)="orderPrice()"
           class="nav-link" href="#" id="orderPrice">Order by price</button>
         </li>
+        <li class="nav-item">
+          <button 
+          (click)="orderDistancie()"
+          class="nav-link" href="#" id="orderPrice">Order by Distancie</button>
+        </li>
       </ul>
       <form class="d-flex mb-0">
-        <input
-        [(ngModel)]="search"
-          class="form-control me-2"
-          type="text"
-          name="search"
-          id="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
+        <input type="text" [formControl]="searchControl" placeholder="Buscar">
       </form>
     </div>
   </nav>
@@ -39,7 +36,7 @@
     class="mb-4 mt-4 row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4"
   >
     <!-- Ara per a cridar a l'array, al ser un signal, hem de posar els parentesis -->
-    @for(event of filteredTitleDescrip(); track event.id){
+    @for(event of events(); track event.id){
 
     <event-card
       [event]="event"
@@ -48,4 +45,7 @@
     />
     }
   </div>
+  @if(hiddenLoadMore){
+    <div class="mb-4"><button id="loadMore" class="btn btn-primary" (click)="loadMore()">Load More events</button></div>
+  }
 </div>

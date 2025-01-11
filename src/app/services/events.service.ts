@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { MyEvent, MyEventInsert } from '../interfaces/my-event';
-import { EventsResponse, SingleEventResponse } from '../interfaces/responses';
+import { CommentInput, Comments, MyEvent, MyEventInsert } from '../interfaces/my-event';
+import { CommentsResponse, EventsResponse, SingleCommentResponse, SingleEventResponse, UsersResponse } from '../interfaces/responses';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,16 @@ export class EventsService {
   #eventsURL = 'events';
   #http = inject(HttpClient);
 
-  getEvents(): Observable<MyEvent[]> {
+  getEvents(page: number, order: string, search: string, creator: string ="0"): Observable<EventsResponse> {
+    const params = new URLSearchParams({
+      page: String(page),
+      order,
+      search,
+      creator: String(creator)
+  });
     return this.#http
-      .get<EventsResponse>(this.#eventsURL)
-      .pipe(map((resp) => resp.events));
+      .get<EventsResponse>(`${this.#eventsURL}?${params.toString()}`)
+      .pipe(map((resp) => resp));
   }
 
   getEvent(id: number): Observable<MyEvent>{
@@ -39,6 +46,13 @@ export class EventsService {
     return this.#http.delete<void>(`${this.#eventsURL}/${id}`);
   }
 
+
+  getAttendees(id: number): Observable<User[]>{
+    return this.#http
+      .get<UsersResponse>(`${this.#eventsURL}/${id}/attend`)
+      .pipe(map((resp) => resp.users));
+  }
+
   postAttend(id: number) : Observable<void>{
     return this.#http
       .post<void>(`${this.#eventsURL}/${id}/attend`, null);
@@ -47,6 +61,18 @@ export class EventsService {
   deleteAttend(id: number) : Observable<void>{
     return this.#http
       .delete<void>(`${this.#eventsURL}/${id}/attend`);
+  }
+
+  getComments(id: number) : Observable<Comments[]>{
+    return this.#http
+      .get<CommentsResponse>(`${this.#eventsURL}/${id}/comments`)
+      .pipe(map((resp) => resp.comments));
+  }
+
+  postComment(id: number, comment: CommentInput): Observable<Comments>{
+    return this.#http
+      .post<SingleCommentResponse>(`${this.#eventsURL}/${id}/comments`, comment)
+      .pipe(map((resp) => resp.comment));
   }
 
 

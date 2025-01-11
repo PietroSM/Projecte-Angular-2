@@ -1,6 +1,71 @@
-<div class="mt-4">
-  <event-card [event]="event()" (deleted)="deleteEvent()"> </event-card>
+<div class="container mt-4">
+  <div class="mt-4">
+    <event-card [event]="event()"  (deleted)="deleteEvent()" (attendeesChanged)="actualitzarAttendees()"> </event-card>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header bg-success text-white" id="address">{{ event().address}}</div>
+    <div id="map">
+      <ol-map [coordinates]="coordinates()">
+        <ol-marker [coordinates]="coordinates()"></ol-marker>
+      </ol-map>
+    </div>
+  </div>
+
+
+  <div class="card mt-4 mb-4">
+    <div class="card-header bg-danger text-white" id="address">Attendees to the event</div>
+    <ul class="list-group" id="userList">
+      @for (user of attendees(); track user.id) {
+        <li class="list-group-item">
+          <a class="avatar" href="">
+            <img class="rounded-circle float-start me-3" style="width: 40px;" [src]="user.avatar" alt="" />
+          </a>
+          <div>
+            <div><a class="text-decoration-none name" href="">{{user.name}}</a></div>
+            <div>
+              <small class="email">{{user.email}}</small>
+            </div>
+          </div>
+        </li>
+      }
+
+    </ul>
+  </div>
+
+
+    <form class="mt-4"  [formGroup]="commentForm" (ngSubmit)="addComment()">
+      <div class="form-group">
+      <textarea class="form-control" name="comment" placeholder="Write a comment"
+      formControlName="comment"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Send</button>
+    </form>
+
+  <div class="card mt-4 mb-4">
+    <div class="card-header bg-info text-white" id="address">User comments</div>
+    <ul class="list-group" id="userComments">
+      @for (comment of comments(); track comment.id) {
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-auto text-center user-info">
+              <a class="avatar" href="">
+                <img class=" rounded-circle" [src]="comment.user.avatar" alt=""/>
+              </a>
+              <div><small><a class="text-decoration-none name" href="">{{comment.user.name}}</a></small></div>
+              <div><small class="date">{{comment.date | date : "dd/MM/yyyy"}}</small></div>
+            </div>
+            <div class="col comment">
+              {{comment.comment}}
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+
 </div>
+
 <div class="mt-4 mb-4">
   <button class="btn btn-success" (click)="goBack()">Go back</button>
 </div>

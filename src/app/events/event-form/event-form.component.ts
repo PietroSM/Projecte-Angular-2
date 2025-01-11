@@ -57,7 +57,6 @@ export class EventFormComponent {
   id = input.required({ transform: numberAttribute });
 
   constructor() {
-    console.log("hola");
     effect(() => {
       if(this.id()){
         this.#eventsService.getEvent(this.id())

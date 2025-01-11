@@ -19,3 +19,14 @@ export interface MyEvent extends MyEventInsert {
   attend: boolean;
   mine: boolean;
 }
+
+export interface Comments {
+  id?: number;
+  comment: string;
+  date: string
+  user: User;
+}
+
+export interface CommentInput{
+  comment: string;
+}
