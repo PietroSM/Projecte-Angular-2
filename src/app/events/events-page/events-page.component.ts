@@ -1,10 +1,11 @@
-import { Component, signal, inject, computed, Signal, effect } from "@angular/core";
+import { Component, signal, inject, computed, Signal, effect, input } from "@angular/core";
 import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EventsService } from "../../services/events.service";
 import { MyEvent } from "../../interfaces/my-event";
 import { EventCardComponent } from "../event-card/event-card.component";
 import { debounce, debounceTime, distinctUntilChanged } from "rxjs";
+import { UsersService } from "../../services/users.service";
 
 
 @Component({
@@ -16,11 +17,16 @@ import { debounce, debounceTime, distinctUntilChanged } from "rxjs";
 export class EventsPageComponent {
 
   events =  signal<MyEvent[]>([]);//Declarem com signal la array
+  creator = input.required<string>();
+  attending =  input.required<string>();
 
   #eventsService = inject(EventsService);
+  #usersService = inject(UsersService);
   contador = 2;
   hiddenLoadMore = true;
   filtre = signal("");
+  text = signal("");
+  creatorName = signal("");
 
 
   searchControl = new FormControl('');
@@ -36,6 +42,15 @@ export class EventsPageComponent {
 
     effect(() => {
       this.geteventsfiltre();
+
+
+      if(this.creator() || this.attending()){
+        let aux = this.creator() || this.attending();
+        this.#usersService.getProfile(Number(aux))
+        .subscribe({
+          next: (profile) => this.creatorName.set(profile.name)
+        });
+      }
     });
   }
 
@@ -56,15 +71,32 @@ export class EventsPageComponent {
 
 
   geteventsfiltre(){
-    this.#eventsService.getEvents(1,this.filtre(),this.search()!)
-    .subscribe({
-      next: (events) => {
-        this.events.set(events.events);
-        this.contador = 2;
-        this.hiddenLoadMore = events.more;
-      },
-      error: (error) => console.log(error)
-    });
+
+    if(this.attending()){
+      this.#eventsService.getEventsAttending(1,this.filtre(),this.search()!,this.attending())
+      .subscribe({
+        next: (events) => {
+          this.events.set(events.events);
+          this.contador = 2;
+          this.hiddenLoadMore = events.more;
+          this.text.set("Events Attended by "+ this.creatorName() +". Filtered by "+ this.search() +". Ordered by "+ this.filtre());
+
+        },
+        error: (error) => console.log(error)
+      });
+
+    }else {
+      this.#eventsService.getEvents(1,this.filtre(),this.search()!,this.creator())
+      .subscribe({
+        next: (events) => {
+          this.events.set(events.events);
+          this.contador = 2;
+          this.hiddenLoadMore = events.more;
+          this.text.set("Events created by "+ this.creatorName() +". Filtered by "+ this.search() +". Ordered by "+ this.filtre());
+        },
+        error: (error) => console.log(error)
+      });
+    }
   }
 
 
@@ -79,15 +111,28 @@ export class EventsPageComponent {
   }
 
   loadMore(){
-    this.#eventsService.getEvents(this.contador,this.filtre(),this.search()!)
-    .subscribe({
-      next: (events) => {
-        this.events.set(this.events().concat(events.events));
-        this.contador ++;
-        this.hiddenLoadMore = events.more;
-      },
-      error: (error) => console.log(error)
-    });
+    if(this.attending()){
+      this.#eventsService.getEventsAttending(1,this.filtre(),this.search()!,this.attending())
+      .subscribe({
+        next: (events) => {
+          this.events.set(this.events().concat(events.events));
+          this.contador ++;
+          this.hiddenLoadMore = events.more;
+        },
+        error: (error) => console.log(error)
+      });
+    } else {
+      this.#eventsService.getEvents(this.contador,this.filtre(),this.search()!)
+      .subscribe({
+        next: (events) => {
+          this.events.set(this.events().concat(events.events));
+          this.contador ++;
+          this.hiddenLoadMore = events.more;
+        },
+        error: (error) => console.log(error)
+      });
+    }
+
   }
 
 

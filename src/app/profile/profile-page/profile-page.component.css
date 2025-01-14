@@ -1,0 +1,26 @@
+.autocomplete-container {
+    position: relative;
+}
+
+ol-map {
+    display: block;
+    width: 100%;
+    height: 300px;
+}
+
+.user-info {
+    width: 8rem;
+
+    .avatar {
+        width: 4rem;
+    }
+}
+
+.comment {
+    white-space: pre-wrap;
+}
+
+.avatar img {
+    width: 40px;
+    cursor: pointer;
+  }

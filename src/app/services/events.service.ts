@@ -25,6 +25,20 @@ export class EventsService {
       .pipe(map((resp) => resp));
   }
 
+
+  getEventsAttending(page: number, order: string, search: string, attending: string): Observable<EventsResponse> {
+    const params = new URLSearchParams({
+      page: String(page),
+      order,
+      search
+    });
+
+    return this.#http
+    .get<EventsResponse>(`${this.#eventsURL}?${params.toString()}&attending=${attending}`)
+    .pipe(map((resp) => resp));
+  }
+
+
   getEvent(id: number): Observable<MyEvent>{
     return this.#http
       .get<SingleEventResponse>(`${this.#eventsURL}/${id}`)

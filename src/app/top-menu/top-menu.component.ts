@@ -15,6 +15,6 @@ export class TopMenuComponent {
     //TODO
     isLogged = computed(() => this.#authService.getLogged());
     constructor(){
-        console.log(this.isLogged);
+        console.log(this.isLogged());
     }
 }
