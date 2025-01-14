@@ -35,26 +35,25 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.clear();
     this.#logged.set(false);
+    localStorage.clear();
   }
 
+
   isLogged(): Observable<boolean> {
-    if (localStorage.getItem('token') === undefined && !this.#logged()) {
+    if (!localStorage.getItem('token') && !this.#logged()) {
       return of(false);
+
     } else if (!this.#logged() && localStorage.getItem('token')) {
+
       return this.#http
-        .get<{ valid: boolean }>(`${this.#eventsURL}/validate`)
+        .get<Observable<boolean>>(`${this.#eventsURL}/validate`)
         .pipe(
-          map((resp) => {
-            if (resp.valid) {
+          map(() => {
               this.#logged.set(true);
               return true;
             }
-
-            this.#logged.set(false);
-            return false;
-          }),
+          ),
           catchError(() => {
             localStorage.removeItem('token');
             this.#logged.set(false);
@@ -65,3 +64,5 @@ export class AuthService {
     return of(true);
   }
 }
+
+

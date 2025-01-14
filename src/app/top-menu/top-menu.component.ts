@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -12,9 +12,10 @@ export class TopMenuComponent {
 
     #authService = inject(AuthService);
 
-    //TODO
-    isLogged = computed(() => this.#authService.getLogged());
-    constructor(){
-        console.log(this.isLogged());
+    isLogged = computed(() => this.#authService.getLogged()());
+
+
+    logout(){
+        this.#authService.logout();
     }
 }
