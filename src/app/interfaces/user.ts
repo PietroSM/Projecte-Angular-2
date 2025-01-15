@@ -28,3 +28,16 @@ export interface UserPhotoEdit {
 export interface UserPasswordEdit {
     password: string;
 }
+
+export interface UserGoogleLogin {
+    token: string;
+    lat?: number;
+    lng?: number;
+}
+
+
+export interface UserFacebookLogin {
+    token: string;
+    lat?: number;
+    lng?: number;
+}

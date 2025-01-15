@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { User, UserLogin } from '../interfaces/user';
+import { User, UserFacebookLogin, UserGoogleLogin, UserLogin } from '../interfaces/user';
 import { catchError, map, Observable, of } from 'rxjs';
 import { SingleUserResponse, TokenResponse } from '../interfaces/responses';
 
@@ -33,6 +33,29 @@ export class AuthService {
         })
       );
   }
+
+  loginGoogle(data: UserGoogleLogin): Observable<void>{
+    return this.#http
+      .post<TokenResponse>(`${this.#eventsURL}/google`, data)
+      .pipe(
+        map((resp) => {
+          localStorage.setItem('token', resp.accessToken);
+          this.#logged.set(!this.#logged());
+        })
+      )
+  }
+
+  loginFacebook(data: UserFacebookLogin): Observable<void>{
+    return this.#http
+      .post<TokenResponse>(`${this.#eventsURL}/facebook`, data)
+      .pipe(
+        map((resp) => {
+          localStorage.setItem('token', resp.accessToken);
+          this.#logged.set(!this.#logged());
+        })
+      )
+  }
+
 
   logout(): void {
     this.#logged.set(false);

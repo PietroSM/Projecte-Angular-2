@@ -23,11 +23,9 @@
         [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
       />
       @let emailError = newLogin.get('email')?.errors;
-
       @if(emailError?.['required']){
-        <div class="invalid-feedback">Email is required.</div>
+      <div class="invalid-feedback">Email is required.</div>
       }
-
     </div>
     <div class="mb-3">
       <label for="password">Password:</label>
@@ -41,15 +39,28 @@
         [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
       />
       @let passwordError = newLogin.get('password')?.errors;
-
       @if(passwordError?.['required']){
-        <div class="invalid-feedback">Password is required.</div>
+      <div class="invalid-feedback">Password is required.</div>
       }
-
     </div>
     <p class="text-danger" id="errorInfo"></p>
     <button type="submit" class="btn btn-primary" [disabled]="newLogin.invalid">
       Login
     </button>
+    <a class="btn btn-secondary" [routerLink]="['/auth/register']" role="button"
+      >Create account</a
+    >
+    <div>
+      <google-login class="btn" (login)="loggedGoogle($event)"></google-login>
+      <button
+        fbLogin
+        [scopes]="['email', 'public_profile']"
+        class="btn btn-primary"
+        (loginOk)="loggedFacebook($event)"
+        (loginError)="showError($event)"
+      >
+        Login con Facebook
+      </button>
+    </div>
   </form>
 </div>
