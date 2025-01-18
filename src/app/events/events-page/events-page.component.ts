@@ -4,7 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EventsService } from "../../services/events.service";
 import { MyEvent } from "../../interfaces/my-event";
 import { EventCardComponent } from "../event-card/event-card.component";
-import { debounce, debounceTime, distinctUntilChanged } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs";
 import { UsersService } from "../../services/users.service";
 
 
@@ -42,7 +42,6 @@ export class EventsPageComponent {
 
     effect(() => {
       this.geteventsfiltre();
-
 
       if(this.creator() || this.attending()){
         let aux = this.creator() || this.attending();
@@ -85,7 +84,18 @@ export class EventsPageComponent {
         error: (error) => console.log(error)
       });
 
-    }else {
+    }else if(this.creator()){
+      this.#eventsService.getEventsCreator(1,this.filtre(),this.search()!,this.creator())
+      .subscribe({
+        next: (events) => {
+          this.events.set(events.events);
+          this.contador = 2;
+          this.hiddenLoadMore = events.more;
+          this.text.set("Events created by "+ this.creatorName() +". Filtered by "+ this.search() +". Ordered by "+ this.filtre());
+        },
+        error: (error) => console.log(error)
+      });
+    }else{
       this.#eventsService.getEvents(1,this.filtre(),this.search()!,this.creator())
       .subscribe({
         next: (events) => {
@@ -97,12 +107,6 @@ export class EventsPageComponent {
         error: (error) => console.log(error)
       });
     }
-  }
-
-
-  addEvent(event: MyEvent) {
-    //Afegim el nou event a l'array i canviem la referencia
-    this.events.update(events => [...events, event]);
   }
 
 
@@ -121,7 +125,17 @@ export class EventsPageComponent {
         },
         error: (error) => console.log(error)
       });
-    } else {
+    } else if(this.creator()){
+      this.#eventsService.getEventsCreator(this.contador,this.filtre(),this.search()!, this.creator())
+      .subscribe({
+        next: (events) => {
+          this.events.set(this.events().concat(events.events));
+          this.contador ++;
+          this.hiddenLoadMore = events.more;
+        },
+        error: (error) => console.log(error)
+      });
+    }else{
       this.#eventsService.getEvents(this.contador,this.filtre(),this.search()!)
       .subscribe({
         next: (events) => {

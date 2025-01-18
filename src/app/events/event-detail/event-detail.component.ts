@@ -54,7 +54,6 @@ export class EventDetailComponent {
   }
 
 
-
   deleteEvent(){
     this.#router.navigate(['/events']);
   }

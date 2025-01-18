@@ -22,11 +22,9 @@
         [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
       />
       @let nameErrors = newUser.get('name')?.errors;
-
       @if(nameErrors?.['required']){
-        <div class="invalid-feedback">Title is required.</div>
+      <div class="invalid-feedback">Title is required.</div>
       }
-
     </div>
     <div formGroupName="emailGroup">
       <div class="mb-3">
@@ -42,21 +40,17 @@
         />
 
         @let emailErrors = newUser.get('email')?.errors;
-        
         @if(emailErrors?.['required']){
-          <div class="invalid-feedback">Email is required.</div>
+        <div class="invalid-feedback">Email is required.</div>
         } @else if (emailErrors?.['email']) {
-          <div class="invalid-feedback">must be properly formatted</div>
+        <div class="invalid-feedback">must be properly formatted</div>
         }
-
-
-
       </div>
       <div class="mb-3">
         <label for="emailConfirm">Repeat Email:</label>
 
-        @let emailGroupModel = newUser.get('emailGroup')!;
-        @let email2Model = emailGroupModel.get('emailConfirm')!;
+        @let emailGroupModel = newUser.get('emailGroup')!; @let email2Model =
+        emailGroupModel.get('emailConfirm')!;
         <input
           type="email"
           class="form-control"
@@ -68,14 +62,12 @@
             'is-valid': email2Model.touched && !emailGroupModel.errors?.['equalValues'],
             'is-invalid': email2Model.touched && emailGroupModel.errors?.['equalValues'],
           }"
-          />
+        />
       </div>
       @if (emailGroupModel.errors){
-        <div class="invalid-feedback">The emails do not match</div>
+      <div class="invalid-feedback">The emails do not match</div>
       }
-    
     </div>
-
 
     <div class="mb-3">
       <label for="password">Password:</label>
@@ -89,13 +81,13 @@
         [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
       />
       @let passwordErrors = newUser.get('password')?.errors;
-        
       @if(passwordErrors?.['required']){
-        <div class="invalid-feedback">password is required.</div>
+      <div class="invalid-feedback">password is required.</div>
       } @else if (passwordErrors?.['minLength']) {
-        <div class="invalid-feedback">password must have at least 4 characters</div>
+      <div class="invalid-feedback">
+        password must have at least 4 characters
+      </div>
       }
-
     </div>
     <div class="form-row">
       <div class="mb-3 col">
@@ -132,25 +124,28 @@
         name="image"
         #fileImage
         appEncodeBase64
-        (encoded)="imageBase64=$event"
+        (encoded)="imageBase64 = $event"
         formControlName="image"
         [validationClasses]="{ valid: 'is-valid', invalid: 'is-invalid' }"
       />
       @let imgErrors = newUser.get('image')?.errors;
-    
-      
+
       <div class="invalid-feedback">An image is required.</div>
     </div>
     @if(!imgErrors?.['required']){
-        <img
-        [src]="imageBase64"
-        alt=""
-        id="imgPreview"
-        class="img-thumbnail mb-3"
-      />
+    <img
+      [src]="imageBase64"
+      alt=""
+      id="imgPreview"
+      class="img-thumbnail mb-3"
+    />
     }
     <p class="text-danger" id="errorInfo"></p>
-    <a class="btn btn-secondary" href="login.html" role="button">Go back</a>
-    <button type="submit" class="btn btn-primary" [disabled]="newUser.invalid">Create account</button>
+    <a class="btn btn-secondary" [routerLink]="['/auth/login']" role="button"
+      >Go back</a
+    >
+    <button type="submit" class="btn btn-primary" [disabled]="newUser.invalid">
+      Create account
+    </button>
   </form>
 </div>

@@ -38,6 +38,18 @@ export class EventsService {
     .pipe(map((resp) => resp));
   }
 
+  getEventsCreator(page: number, order: string, search: string, creator: string): Observable<EventsResponse> {
+    const params = new URLSearchParams({
+      page: String(page),
+      order,
+      search
+    });
+
+    return this.#http
+    .get<EventsResponse>(`${this.#eventsURL}?${params.toString()}&creator=${creator}`)
+    .pipe(map((resp) => resp));
+  }
+
 
   getEvent(id: number): Observable<MyEvent>{
     return this.#http

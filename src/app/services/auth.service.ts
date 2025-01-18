@@ -12,7 +12,6 @@ export class AuthService {
   #logged = signal(false);
   #http = inject(HttpClient);
 
-  //TODO
   getLogged(): WritableSignal<boolean> {
     return this.#logged;
   }

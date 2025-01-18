@@ -10,8 +10,9 @@ import { minDateValidator } from "../../shared/validator/min-date.validator";
 import { OlMarkerDirective } from "../../shared/directives/ol-maps/ol-marker.directive";
 import { GaAutocompleteDirective } from "../../shared/directives/ol-maps/ga-autocomplete.directive";
 import { SearchResult } from "../../interfaces/search-result";
-import { MyEventInsert } from "../../interfaces/my-event";
-import { isEmpty } from "ol/extent";
+import { MyEvent, MyEventInsert } from "../../interfaces/my-event";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmModalComponent } from "../../shared/modals/confirm-modal/confirm-modal.component";
 
 
 
@@ -25,16 +26,18 @@ export class EventFormComponent {
 
   #eventsService = inject(EventsService);
   #router = inject(Router);
+  #modalService = inject(NgbModal);
+  #fb = inject(NonNullableFormBuilder);
 
   #saved = false;
-
-
-
-
-
-
-  #fb = inject(NonNullableFormBuilder);
+  imageBase64 = '';
   minDate = new Intl.DateTimeFormat('en-CA').format(new Date());
+
+  coordinates = signal<[number, number]>([-0.5, 38.5]);
+  address = signal<string>("");
+
+  id = input.required({ transform: numberAttribute });
+  event = input.required<MyEvent>();
 
   newEvent = this.#fb.group({
     title: ['', [Validators.required, Validators.minLength(5), Validators.pattern("^[a-zA-Z][a-zA-Z ]*$")]],
@@ -44,39 +47,29 @@ export class EventFormComponent {
     image: ['', [Validators.required]]
   });
 
-  imageBase64 = '';
-
-  coordinates = signal<[number, number]>([-0.5, 38.5]);
-  address = signal<string>("");
 
   changePlace(result: SearchResult) {
     this.coordinates.set(result.coordinates);
     this.address.set(result.address);
   }
 
-  id = input.required({ transform: numberAttribute });
-
   constructor() {
     effect(() => {
       if(this.id()){
-        this.#eventsService.getEvent(this.id())
-          .subscribe((e) => {
-            this.newEvent.get('title')?.setValue(e.title);
-            this.newEvent.get('date')?.setValue(e.date.toString().split(' ')[0]);
-            this.newEvent.get('description')?.setValue(e.description);
-            this.newEvent.get('price')?.setValue(e.price);
+            this.newEvent.get('title')?.setValue(this.event().title);
+            this.newEvent.get('date')?.setValue(this.event().date.toString().split(' ')[0]);
+            this.newEvent.get('description')?.setValue(this.event().description);
+            this.newEvent.get('price')?.setValue(this.event().price);
 
-            this.imageBase64 = e.image;
-            this.coordinates.set([e.lng,e.lat]);
-            this.address.set(e.address);
-          });
+            this.imageBase64 = this.event().image;
+            this.coordinates.set([this.event().lng,this.event().lat]);
+            this.address.set(this.event().address);
       }
     });
   }
 
 
   addEvent(){
-
     const myEventInsert : MyEventInsert = {
       title: this.newEvent.getRawValue().title,
       description: this.newEvent.getRawValue().description,
@@ -109,7 +102,13 @@ export class EventFormComponent {
   }
 
   canDeactivate() {
-    return this.newEvent.pristine || this.#saved || confirm('¿Quieres abandonar la página?. Los cambios se perderán...');
+    if (this.newEvent.pristine || this.#saved){
+      return true;
+    }
+    const modalRef = this.#modalService.open(ConfirmModalComponent);
+    modalRef.componentInstance.title = 'Changes not saved';
+    modalRef.componentInstance.body = 'Do you want to leave the page?';
+    return modalRef.result.catch(() => false);
   }
 
 }

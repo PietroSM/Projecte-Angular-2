@@ -33,18 +33,16 @@ import { ErrorModalComponent } from '../../shared/modals/error-modal/error-modal
 export class LoginPageComponent {
   #authService = inject(AuthService);
   #router = inject(Router);
-
+  #modalService = inject(NgbModal);
   #fb = inject(NonNullableFormBuilder);
+
+  localitzacio = toSignal(from(MyGeolocation.getLocation()));
 
   newLogin = this.#fb.group({
     email: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
 
-  localitzacio = toSignal(from(MyGeolocation.getLocation()));
-
-
-  #modalService = inject(NgbModal);
 
   iniciar() {
     const newLogin: UserLogin = {
@@ -57,9 +55,7 @@ export class LoginPageComponent {
     this.#authService.login(newLogin).subscribe({
       next: () => this.#router.navigate(['/events']),
       error: (error) => {
-        const modalRef = this.#modalService.open(ErrorModalComponent);
-        modalRef.componentInstance.title = 'Error';
-        modalRef.componentInstance.body = error.error.error;
+        this.showError(error.error.error);
       },
     });
   }
@@ -73,7 +69,9 @@ export class LoginPageComponent {
 
     this.#authService.loginGoogle(newlogin).subscribe({
       next: () => this.#router.navigate(['/events']),
-      error: (error) => console.log(error.error),
+      error: (error) => {
+        this.showError(error.error.error);
+      },
     });
   }
 
@@ -86,11 +84,14 @@ export class LoginPageComponent {
 
     this.#authService.loginFacebook(newlogin).subscribe({
       next: () => this.#router.navigate(['/events']),
-      error: (error) => console.log(error.error),
+      error: (error) => {
+        this.showError(error.error.error);
+      },
     });
   }
 
   showError(error: any) {
-    console.error(error);
-  }
+    const modalRef = this.#modalService.open(ErrorModalComponent);
+    modalRef.componentInstance.title = 'Error';
+    modalRef.componentInstance.body = error;  }
 }
