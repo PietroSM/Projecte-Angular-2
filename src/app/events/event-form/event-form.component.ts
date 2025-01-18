@@ -62,7 +62,7 @@ export class EventFormComponent {
             this.newEvent.get('price')?.setValue(this.event().price);
 
             this.imageBase64 = this.event().image;
-            this.coordinates.set([this.event().lng,this.event().lat]);
+            this.coordinates.set([this.event().lat,this.event().lng]);
             this.address.set(this.event().address);
       }
     });
