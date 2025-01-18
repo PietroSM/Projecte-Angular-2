@@ -8,6 +8,8 @@ import { EncodeBase64Directive } from '../../shared/directives/encode-base64.dir
 import { Router, RouterLink } from '@angular/router';
 import { OlMapDirective } from '../../shared/directives/ol-maps/ol-map.directive';
 import { OlMarkerDirective } from '../../shared/directives/ol-maps/ol-marker.directive';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorModalComponent } from '../../shared/modals/error-modal/error-modal.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -18,6 +20,7 @@ import { OlMarkerDirective } from '../../shared/directives/ol-maps/ol-marker.dir
 export class ProfilePageComponent {
   user = input.required<User>();
   #userService = inject(UsersService);
+    #modalService = inject(NgbModal);
 
   showProfileInfo = signal(true);
   showEditProfile = signal(false);
@@ -69,7 +72,11 @@ export class ProfilePageComponent {
           this.user().name = userEdit.name;
           this.editProfile();
         },
-        error: (error) => console.log(error)
+        error: (error) => {
+              const modalRef = this.#modalService.open(ErrorModalComponent);
+              modalRef.componentInstance.title = 'Error';
+              modalRef.componentInstance.body = error.error.message; 
+        }
       });
   }
 
@@ -88,7 +95,11 @@ export class ProfilePageComponent {
       .savePassword(pass)
       .subscribe({
           next: () => this.editProfile2(),
-          error: (error) => console.log(error)
+          error: (error) => {
+            const modalRef = this.#modalService.open(ErrorModalComponent);
+            modalRef.componentInstance.title = 'Error';
+            modalRef.componentInstance.body = error.error.message; 
+          }
       });
   }
 
