@@ -22,6 +22,7 @@ export class FbLoginDirective {
       const resp = await this.#loadService!.login(this.scopes().join(','));
       this.loginOk.emit(resp);
     } catch {
+      console.log("hola2");
       this.loginError.emit('Error with Facebook login!');
     }
   }

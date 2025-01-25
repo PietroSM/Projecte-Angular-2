@@ -16,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding(), withPreloading(PreloadAllModules)),
     provideHttpClient(withInterceptors([baseUrlInterceptor, authInterceptor]),),
     provideGoogleId('746820501392-oalflicqch2kuc12s8rclb5rf7b1fist.apps.googleusercontent.com'),
-    provideFacebookId('1100988247798042', 'v21.0')
+    provideFacebookId('9352218331466297', 'v22.0')
   ],
 };

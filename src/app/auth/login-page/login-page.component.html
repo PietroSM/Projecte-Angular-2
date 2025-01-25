@@ -52,15 +52,15 @@
     >
     <div>
       <google-login class="btn" (login)="loggedGoogle($event)"></google-login>
-      <button
-        fbLogin
-        [scopes]="['email', 'public_profile']"
-        class="btn btn-primary"
-        (loginOk)="loggedFacebook($event)"
-        (loginError)="showError($event)"
-      >
-        Login con Facebook
-      </button>
     </div>
   </form>
+  <button
+    fbLogin
+    [scopes]="['email', 'public_profile']"
+    class="btn btn-primary"
+    (loginOk)="loggedFacebook($event)"
+    (loginError)="showError($event)"
+  >
+    Login con Facebook
+  </button>
 </div>
